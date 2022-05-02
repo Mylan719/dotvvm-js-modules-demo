@@ -1,0 +1,20 @@
+﻿@viewModel JsModulesDemo.Pages.MasterPageViewModel, JsModulesDemo
+
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <div style="display:none;" Visible="{value: true}">
+        <cc:Alert DataContext="{value: Alert}" IsVisible="{value: IsVisible}" Message="{value: Message}" Type="{value: Type}" />
+
+        <dot:ContentPlaceHolder ID="MainContent" />
+        <dot:RequiredResource Name="style-css" />
+    </div>
+</body>
+</html>
+
+

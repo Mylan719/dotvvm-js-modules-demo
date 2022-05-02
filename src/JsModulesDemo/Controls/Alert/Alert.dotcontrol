@@ -1,0 +1,22 @@
+﻿@viewModel object, mscorlib
+@baseType JsModulesDemo.Controls.Alert.Alert, JsModulesDemo
+@import JsModulesDemo.Model.Enums
+@noWrapperTag
+
+<div class="alert"
+     Class-alert--info="{value: _control.Type == AlertType.Info}"
+     Class-alert--success="{value: _control.Type == AlertType.Success}"
+     Class-alert--warning="{value: _control.Type == AlertType.Warning}"
+     Class-alert--danger="{value: _control.Type == AlertType.Danger}"
+     Visible="{value: _control.IsVisible.Value}">
+    <dot:HtmlLiteral Html="{value: _control.Message}" class="alert__message" WrapperTagName="p" />
+    <dot:Button class="alert__close"
+                ButtonTagName="button"
+                Click="{staticCommand: _control.IsVisible.Value = false}"
+                Validation.Enabled="false"
+                aria-label="{resource: "Zavřít"}"
+                title="{resource: "Zavřít"}">
+        <i class="ms-Icon ms-Icon--ChromeClose"></i>
+    </dot:Button>
+</div>
+

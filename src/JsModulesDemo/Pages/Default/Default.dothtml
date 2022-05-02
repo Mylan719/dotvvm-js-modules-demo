@@ -1,0 +1,9 @@
+﻿@viewModel JsModulesDemo.Pages.Default.DefaultViewModel, JsModulesDemo
+@masterPage Pages/MasterPage.dotmaster
+
+@js Default-js
+
+<dot:Content ContentPlaceHolderID="MainContent">
+
+</dot:Content>
+

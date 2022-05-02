@@ -1,0 +1,14 @@
+﻿@viewModel JsModulesDemo.Pages.Dashboard.DashboardViewModel, JsModulesDemo
+@masterPage Pages/MasterPage.dotmaster
+
+@js Dashboard-js
+
+<dot:Content ContentPlaceHolderID="MainContent">
+    <dot:Repeater WrapperTagName="section" DataSource="{value: Questions}">
+        <article>
+            <h2 InnerText="{value: Author.Name}"/>
+            <p InnerText="{value: Text}"/>
+        </article>
+    </dot:Repeater>
+</dot:Content>
+

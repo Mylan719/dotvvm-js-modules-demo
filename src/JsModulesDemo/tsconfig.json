@@ -1,0 +1,32 @@
+﻿{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "outDir": "wwwroot",
+    "noImplicitAny": false,
+    "noEmitOnError": true,
+    "noEmitHelpers": false,
+    "module": "ESNext",
+    "target": "esnext",
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "typeRoots": [],
+    "lib": [
+      "DOM",
+      "ES2020",
+      "ESNext"
+    ],
+    "sourceMap": true
+  },
+  "include": [
+    "./Controls/**/*",
+    "./Pages/**/*",
+    "./Resources/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "./Resources/Scripts/typings",  
+    "wwwroot",
+    "build",
+    "debug"
+  ]
+}

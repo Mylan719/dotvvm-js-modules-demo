@@ -2,9 +2,9 @@
 
 namespace JsModulesDemo.Model
 {
-    public class UserInfoModel
+    public record UserInfoModel
     {
-        public IList<string> Names { get; set; }
+        public List<string> Names { get; set; } = new List<string>();
         public int Count { get; set; }
     }
 }

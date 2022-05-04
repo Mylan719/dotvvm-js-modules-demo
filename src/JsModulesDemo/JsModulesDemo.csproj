@@ -5,17 +5,14 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
 	<ItemGroup>
+	  <Content Remove="wwwroot\libs\signalr\signalr.js" />
+	  <Content Remove="wwwroot\libs\signalr\signalr.min.js" />
 	  <Content Remove="wwwroot\style.css" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<None Remove="Controls\Alert\Alert.ts" />
 		<None Remove="Pages\Dashboard\Dashboard.dothtml" />
-		<None Remove="Resources\Scripts\typings\BusinessPack.d.ts" />
-		<None Remove="Resources\Scripts\typings\DotVVM.d.ts" />
-		<None Remove="Resources\Scripts\typings\jQuery.d.ts" />
-		<None Remove="Resources\Scripts\typings\Knockout.d.ts" />
-		<None Remove="Resources\Scripts\typings\Knockout.DotVVM.d.ts" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -23,6 +20,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Include="wwwroot\libs\signalr\signalr.js" />
+	  <None Include="wwwroot\libs\signalr\signalr.min.js" />
 	  <None Include="wwwroot\style.css" />
 	</ItemGroup>
 
@@ -33,8 +32,5 @@
 
 	<ItemGroup>
 		<TypeScriptCompile Include="Controls\Alert\Alert.ts" />
-		<TypeScriptCompile Include="Resources\Scripts\typings\DotVVM.d.ts" />
-		<TypeScriptCompile Include="Resources\Scripts\typings\Knockout.d.ts" />
-		<TypeScriptCompile Include="Resources\Scripts\typings\Knockout.DotVVM.d.ts" />
 	</ItemGroup>
 </Project>

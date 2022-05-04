@@ -1,14 +1,35 @@
 ﻿@viewModel JsModulesDemo.Pages.Dashboard.DashboardViewModel, JsModulesDemo
 @masterPage Pages/MasterPage.dotmaster
+@service service = JsModulesDemo.Pages.Dashboard.DashboardUiService
 
 @js Dashboard-js
 
 <dot:Content ContentPlaceHolderID="MainContent">
-    <dot:Repeater WrapperTagName="section" DataSource="{value: Questions}">
-        <article>
-            <h2 InnerText="{value: Author.Name}"/>
-            <p InnerText="{value: Text}"/>
-        </article>
-    </dot:Repeater>
+    <div IncludeInPage={value: ShowLogin}>
+        <section DataContext={value: CurentUser}>
+            <dot:TextBox Text={value: Name} />
+            <dot:Button Text="Login" Click="{staticCommand: _js.Invoke("registerHub", _root.DashboardId, Id = service.CreateUserIdentity(), Name); _root.ShowLogin = false}" />
+        </section>
+    </div>
+    <div IncludeInPage={value: !ShowLogin}>
+        <section DataContext={value: UserInfo}>
+            <h2>Users ({{value: Count}}): </h2>
+            <dot:Repeater WrapperTagName="ul" DataSource={value: Names}>
+                <li InnerText={value: _this} />
+            </dot:Repeater>
+        </section>
+        <section>
+            <dot:TextBox Type="MultiLine" Text={value: NewQuestionText} />
+            <dot:Button Text="Login" Click="{staticCommand: service.AddQuestions(_root.DashboardId.Value, _root.CurentUser.Id, NewQuestionText)}" />
+        </section>
+        <dot:Repeater WrapperTagName="section" DataSource={value: Questions}>
+            <article>
+                <h2 InnerText={value: Author.Name} />
+                <p InnerText={value: Text} />
+            </article>
+        </dot:Repeater>
+    </div>
+    <dot:NamedCommand Name="RefreshUserInfo" Command={staticCommand: UserInfo = service.GetDashboardUsers(DashboardId.Value)} />
+    <dot:NamedCommand Name="RefreshQuestions" Command={staticCommand: Questions = service.GetQuestions(DashboardId.Value)} />
 </dot:Content>
 

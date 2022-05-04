@@ -13,6 +13,7 @@
 
         <dot:ContentPlaceHolder ID="MainContent" />
         <dot:RequiredResource Name="style-css" />
+        <dot:RequiredResource Name="signalr-js" />
     </div>
 </body>
 </html>

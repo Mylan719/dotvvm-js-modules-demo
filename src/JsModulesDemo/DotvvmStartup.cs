@@ -17,6 +17,8 @@ namespace JsModulesDemo
             ConfigureControls(config, applicationPath);
             ConfigureResources(config, applicationPath);
             ConfigureImports(config);
+
+            config.Security.VerifySecFetchForPages.Enabled = false;
         }
 
         private static void ConfigureImports(DotvvmConfiguration config)
@@ -40,7 +42,8 @@ namespace JsModulesDemo
 
         private static void ConfigureStyleResources(DotvvmConfiguration config)
         {
-            config.Resources.Register("style-css", new StylesheetResource(new FileResourceLocation("/wwwroot/style.css")));
+            config.Resources.Register("style-css", new StylesheetResource(new FileResourceLocation("wwwroot/style.css")));
+            config.Resources.Register("signalr-js", new ScriptResource(new FileResourceLocation("wwwroot/libs/signalr/signalr.js")));
         }
 
         private static void ConfigureScriptResources(DotvvmConfiguration config)

@@ -1,14 +1,8 @@
 ﻿namespace JsModulesDemo.Model
 {
     public record UserModel {
-        public Guid Id { get; init; }
-        public string Name { get; init; }
-
-        public UserModel(Guid id, string name)
-        {
-            Id = id;
-            Name = name;
-        }
+        public Guid Id { get; set; }
+        public string Name { get; set; } = "";
     }
 
     public record LikeModel {

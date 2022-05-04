@@ -6,9 +6,9 @@ namespace JsIntegrationDemo.Hubs
 {
     public class QuestionHub : Hub
     {
-        private readonly UserService participantService;
+        private readonly ActiveUserService participantService;
 
-        public QuestionHub(UserService participantService)
+        public QuestionHub(ActiveUserService participantService)
         {
             this.participantService = participantService;
         }
@@ -20,7 +20,7 @@ namespace JsIntegrationDemo.Hubs
 
         public override async Task OnConnectedAsync()
         {
-            var dashboardId = await participantService.AddParticipant(GetDashboardId(), GetUserId());
+            var dashboardId = participantService.AddActiveUser(GetDashboardId(), GetUserId(), GetQueryValue("name") ?? "");
 
             await Groups.AddToGroupAsync(Context.ConnectionId, dashboardId.ToString());
 
@@ -31,7 +31,7 @@ namespace JsIntegrationDemo.Hubs
 
         public override async Task OnDisconnectedAsync(Exception? exception)
         {
-            var dashboardId = await participantService.RemoveParticipant(GetDashboardId(), GetUserId());
+            var dashboardId = participantService.RemoveDashboardUser(GetDashboardId(), GetUserId());
 
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, dashboardId.ToString());
 

@@ -1,19 +1,71 @@
-﻿using JsModulesDemo.Model;
+﻿using JsModulesDemo.Error;
+using JsModulesDemo.Model;
 using System.Collections.Concurrent;
 
 namespace JsModulesDemo.BusinessServices
 {
     public class QuestionService : IService
     {
-        private readonly ConcurrentDictionary<Guid, ConcurrentDictionary<Guid, QuestionModel>> dashboards = new ConcurrentDictionary<Guid, ConcurrentDictionary<Guid, QuestionModel>>();
+        private static readonly ConcurrentDictionary<Guid, ConcurrentDictionary<Guid, QuestionModel>> dashboards = new ConcurrentDictionary<Guid, ConcurrentDictionary<Guid, QuestionModel>>();
+        private readonly ActiveUserService activeUserService;
+
+        public QuestionService(ActiveUserService activeUserService)
+        {
+            this.activeUserService = activeUserService;
+        }
 
         public List<QuestionModel> GetQuestions(Guid dashboardId)
         {
-            if(dashboards.TryGetValue(dashboardId, out var models))
+            if (dashboards.TryGetValue(dashboardId, out var models))
             {
                 return models.Values.ToList();
             }
             return new List<QuestionModel>();
+        }
+
+        public void AddQuestion(Guid dashboardId, Guid userId, string text)
+        {
+            var user = activeUserService.GetActiveUser(dashboardId, userId);
+
+            var questions = EnsureBag(dashboardId);
+
+            var questionId = Guid.NewGuid();
+            var question = new QuestionModel(questionId, user, text);
+
+            if (!questions.TryAdd(questionId, question))
+            {
+                throw ClientErrorResultException.Create("Question adding failed.");
+            };
+        }
+
+        public void RemoveQuestion(Guid dashboardId, Guid userId, Guid questionId)
+        {
+            var user = activeUserService.GetActiveUser(dashboardId, userId);
+
+            var questions = EnsureBag(dashboardId);
+            var question = GetQuestion(dashboardId, questionId);
+
+            if(question.Author.Id != questionId)
+            {
+                throw ClientErrorResultException.Create("Only author can remove questions.");
+            }
+
+            if (!questions.TryRemove(questionId, out var _))
+            {
+                throw ClientErrorResultException.Create("Question removing failed.");
+            };
+        }
+
+        public QuestionModel GetQuestion(Guid dashboardId, Guid questionId)
+        {
+            return EnsureBag(dashboardId).TryGetValue(questionId, out var question)
+                ? question
+                : throw ClientErrorResultException.Create("Question not found.");
+        }
+
+        private static ConcurrentDictionary<Guid, QuestionModel> EnsureBag(Guid dashboardId)
+        {
+            return dashboards.GetOrAdd(dashboardId, mId => new ConcurrentDictionary<Guid, QuestionModel>());
         }
     }
 }

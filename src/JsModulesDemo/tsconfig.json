@@ -9,7 +9,10 @@
     "target": "esnext",
     "esModuleInterop": true,
     "moduleResolution": "node",
-    "typeRoots": [],
+    "typeRoots": [
+      "./node_modules/@types",
+      "./node_modules/dotvvm-types"
+    ],
     "lib": [
       "DOM",
       "ES2020",

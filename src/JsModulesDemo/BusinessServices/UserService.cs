@@ -6,34 +6,33 @@ namespace JsModulesDemo.BusinessServices
 {
     public class UserService : IService
     {
-        private static ConcurrentDictionary<Guid, ConcurrentDictionary<Guid, string>> usersByDashboard { get; set; } = new ConcurrentDictionary<Guid, ConcurrentDictionary<Guid, string>>();
+        private static ConcurrentDictionary<Guid, ConcurrentDictionary<Guid, UserModel>> usersByDashboard { get; set; }
+            = new ConcurrentDictionary<Guid, ConcurrentDictionary<Guid, UserModel>>();
 
-        public async Task<Guid> AddParticipant(Guid dashboardId, Guid userId)
+        public Guid AddUser(Guid dashboardId, string name)
         {
-            var dashboardUser = await GetDashboardUser(dashboardId, userId);
-
-            var memberNameById = EnsureBag(dashboardUser.DashboardId);
-            memberNameById.AddOrUpdate(dashboardUser.DashboardId, dashboardUser.Name, (id, oldName) => dashboardUser.Name);
-            return dashboardUser.DashboardId;
+            var userById = EnsureBag(dashboardId);
+            var user = new UserModel { Id = Guid.NewGuid(), Name = name };
+            userById.AddOrUpdate(user.Id, user, (id, oldUser) => user);
+            return dashboardId;
         }
 
-        public async Task<Guid> RemoveParticipant(Guid dashboardId, Guid userId)
+        public Guid RemoveUser(Guid dashboardId, Guid userId)
         {
-            var participant = await GetDashboardUser(dashboardId, userId);
-
-            var bag = EnsureBag(participant.DashboardId);
-            bag.TryRemove(participant.UserId, out string _);
-            return participant.DashboardId;
+            var bag = EnsureBag(dashboardId);
+            bag.TryRemove(userId, out UserModel _);
+            return dashboardId;
         }
 
-        private static ConcurrentDictionary<Guid, string> EnsureBag(Guid dashboardId)
+        public UserModel GetUser(Guid dashboardId, Guid userId)
         {
-            return usersByDashboard.GetOrAdd(dashboardId, mId => new ConcurrentDictionary<Guid, string>());
+            return EnsureBag(dashboardId).TryGetValue(userId, out var user)
+                ? user
+                : throw ClientErrorResultException.Create("User not found.");
         }
-
-        private async Task<DashboardUser> GetDashboardUser(Guid dashboardId, Guid userId)
+        private static ConcurrentDictionary<Guid, UserModel> EnsureBag(Guid dashboardId)
         {
-            throw new NotImplementedException();
+            return usersByDashboard.GetOrAdd(dashboardId, mId => new ConcurrentDictionary<Guid, UserModel>());
         }
 
         public UserInfoModel GetUsersInfo(Guid dashboardId)
@@ -44,7 +43,7 @@ namespace JsModulesDemo.BusinessServices
             return new UserInfoModel
             {
                 Count = distinct.Count,
-                Names = distinct
+                Names = distinct.Select(u => u.Name).ToList()
             };
         }
 

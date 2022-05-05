@@ -53,5 +53,12 @@ namespace JsModulesDemo.Pages.Dashboard
             questionService.RemoveQuestion(dashboardId, userId, questionId);
             QuestionHub.SendNotification(hubContext, dashboardId, "refreshDashboard");
         }
+
+        [AllowStaticCommand]
+        public void ToggleLike(Guid dashboardId, Guid questionId, Guid userId)
+        {
+            questionService.ToggleLike(dashboardId, userId, questionId);
+            QuestionHub.SendNotification(hubContext, dashboardId, "refreshDashboard");
+        }
     }
 }

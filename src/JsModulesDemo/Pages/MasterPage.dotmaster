@@ -5,15 +5,21 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
-    <title></title>
+    <link rel="stylesheet" href="https://cdn.concisecss.com/concise.min.css">
+    <link rel="stylesheet" href="https://cdn.concisecss.com/concise-ui/concise-ui.min.css">
+    <title>Question.me</title>
 </head>
 <body>
-    <div style="display:none;" Visible="{value: true}">
+    <div container style="display:none;" Visible="{value: true}">
+        <div class="banner">
+            <h1>Question.me</h1>
+        </div>
         <cc:Alert DataContext="{value: Alert}" IsVisible="{value: IsVisible}" Message="{value: Message}" Type="{value: Type}" />
 
         <dot:ContentPlaceHolder ID="MainContent" />
         <dot:RequiredResource Name="style-css" />
         <dot:RequiredResource Name="signalr-js" />
+        <dot:RequiredResource Name="qrcode-js" />
     </div>
 </body>
 </html>

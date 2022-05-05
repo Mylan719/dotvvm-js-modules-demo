@@ -3,11 +3,11 @@
 @import JsModulesDemo.Model.Enums
 @noWrapperTag
 
-<div class="alert"
-     Class-alert--info="{value: _control.Type == AlertType.Info}"
-     Class-alert--success="{value: _control.Type == AlertType.Success}"
-     Class-alert--warning="{value: _control.Type == AlertType.Warning}"
-     Class-alert--danger="{value: _control.Type == AlertType.Danger}"
+<div class="alert-box"
+     Class-alert-info="{value: _control.Type == AlertType.Info}"
+     Class-alert-success="{value: _control.Type == AlertType.Success}"
+     Class-alert-warning="{value: _control.Type == AlertType.Warning}"
+     Class-alert-error="{value: _control.Type == AlertType.Danger}"
      Visible="{value: _control.IsVisible.Value}">
     <dot:HtmlLiteral Html="{value: _control.Message}" class="alert__message" WrapperTagName="p" />
     <dot:Button class="alert__close"

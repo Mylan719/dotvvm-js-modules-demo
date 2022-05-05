@@ -1,9 +1,14 @@
 ﻿@viewModel JsModulesDemo.Pages.Default.DefaultViewModel, JsModulesDemo
 @masterPage Pages/MasterPage.dotmaster
+@service service = JsModulesDemo.Pages.Default.DefaultUiService
 
 @js Default-js
 
 <dot:Content ContentPlaceHolderID="MainContent">
-
+    <div class="card-box login">
+        <section class="card-content">
+            <dot:Button class="-success" ButtonTagName="button" Click={staticCommand: service.CreateDashboard()} Text="Create new dashboard" />
+        </section>
+    </div>
 </dot:Content>
 

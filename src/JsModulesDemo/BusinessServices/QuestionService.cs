@@ -18,7 +18,7 @@ namespace JsModulesDemo.BusinessServices
         {
             if (dashboards.TryGetValue(dashboardId, out var models))
             {
-                return models.Values.ToList();
+                return models.Values.OrderByDescending(q=> q.Likes.Count).ThenByDescending(q => q.Created).ToList();
             }
             return new List<QuestionModel>();
         }
@@ -30,12 +30,21 @@ namespace JsModulesDemo.BusinessServices
             var questions = EnsureBag(dashboardId);
 
             var questionId = Guid.NewGuid();
-            var question = new QuestionModel(questionId, user, text);
+            var question = new QuestionModel(questionId, user, text, DateTime.UtcNow);
 
             if (!questions.TryAdd(questionId, question))
             {
                 throw ClientErrorResultException.Create("Question adding failed.");
             };
+        }
+
+        public void ToggleLike(Guid dashboardId, Guid userId, Guid questionId)
+        {
+            var user = activeUserService.GetActiveUser(dashboardId, userId);
+
+            var question = GetQuestion(dashboardId, questionId);
+
+            question.ToggleLike(user);
         }
 
         public void RemoveQuestion(Guid dashboardId, Guid userId, Guid questionId)
@@ -45,7 +54,7 @@ namespace JsModulesDemo.BusinessServices
             var questions = EnsureBag(dashboardId);
             var question = GetQuestion(dashboardId, questionId);
 
-            if(question.Author.Id != questionId)
+            if (question.Author.Id != questionId)
             {
                 throw ClientErrorResultException.Create("Only author can remove questions.");
             }

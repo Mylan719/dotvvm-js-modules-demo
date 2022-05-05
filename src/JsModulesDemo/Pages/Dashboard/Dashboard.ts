@@ -21,5 +21,5 @@ class DashboardModule extends DashboardSignalRBase
 
     protected onQuestionsChanged: () => void = () => {
          this.moduleContext.namedCommands["RefreshQuestions"]();
-    }
+    }  
 } 

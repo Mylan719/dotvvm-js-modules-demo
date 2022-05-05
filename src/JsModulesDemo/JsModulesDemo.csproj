@@ -5,6 +5,12 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
 	<ItemGroup>
+	  <Compile Remove="wwwroot\libs\NewFolder\**" />
+	  <Content Remove="wwwroot\libs\NewFolder\**" />
+	  <EmbeddedResource Remove="wwwroot\libs\NewFolder\**" />
+	  <None Remove="wwwroot\libs\NewFolder\**" />
+	</ItemGroup>
+	<ItemGroup>
 	  <Content Remove="wwwroot\libs\signalr\signalr.js" />
 	  <Content Remove="wwwroot\libs\signalr\signalr.min.js" />
 	  <Content Remove="wwwroot\style.css" />
@@ -12,10 +18,12 @@
 
 	<ItemGroup>
 		<None Remove="Controls\Alert\Alert.ts" />
+		<None Remove="Controls\qrcode.dotcontrol" />
 		<None Remove="Pages\Dashboard\Dashboard.dothtml" />
 	</ItemGroup>
 
 	<ItemGroup>
+		<Content Include="Controls\QrCodeLink\QrCodeLink.dotcontrol" />
 		<Content Include="Pages\Dashboard\Dashboard.dothtml" />
 	</ItemGroup>
 

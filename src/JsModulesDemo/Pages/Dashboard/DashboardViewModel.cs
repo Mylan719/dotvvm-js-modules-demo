@@ -27,6 +27,9 @@ namespace JsModulesDemo.Pages.Dashboard
 
         public bool ShowLogin { get; set; } = true;
 
+        [Bind(Direction.ServerToClient)]
+        public string Location { get; set; }
+
         public DashboardViewModel(QuestionService questionService, ActiveUserService userService)
         {
             this.questionService = questionService;
@@ -35,6 +38,8 @@ namespace JsModulesDemo.Pages.Dashboard
 
         public override async Task PreRender()
         {
+            Location = Context.HttpContext.Request.Url.ToString(); 
+
             if (!Context.IsPostBack && DashboardId is not null)
             {
                 Questions = questionService.GetQuestions(DashboardId.Value);

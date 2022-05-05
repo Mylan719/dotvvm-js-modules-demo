@@ -1,2 +1,46 @@
 ﻿body {
 }
+
+.banner {
+    background-color: #da3c3c;
+    color: white;
+    padding-top: 1em;
+    padding-bottom: 0.5em;
+    padding-left: 2em;
+}
+
+    .banner h1 {
+        color: white;
+    }
+
+.main-header {
+    padding-bottom:0.2em;
+    margin-top: 1.5em;
+    border-bottom: 1px #da3c3c solid;
+}
+
+.question > .header {
+    background-color: rgba(16,168,135,.15);
+    color: #0c7962;
+}
+
+.question{
+    border-radius: 0.5em;
+}
+
+.question > .header > small {
+    font-size: 0.5em;
+}
+
+button {
+    border-radius: 2em;
+}
+
+input {
+    border-radius: 2em;
+}
+
+.login {
+    border-bottom-left-radius: 1em;
+    border-bottom-right-radius: 1em;
+}

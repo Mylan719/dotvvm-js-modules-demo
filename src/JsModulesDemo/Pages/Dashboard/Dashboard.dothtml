@@ -5,31 +5,60 @@
 @js Dashboard-js
 
 <dot:Content ContentPlaceHolderID="MainContent">
-    <div IncludeInPage={value: ShowLogin}>
-        <section DataContext={value: CurentUser}>
-            <dot:TextBox Text={value: Name} />
-            <dot:Button Text="Login" Click="{staticCommand: _js.Invoke("registerHub", _root.DashboardId, Id = service.CreateUserIdentity(), Name); _root.ShowLogin = false}" />
+    <div class="card-box login" IncludeInPage={value: ShowLogin}>
+        <section class="card-content" DataContext={value: CurentUser}>
+            <label InnerText="Name:" for="login" />
+            <dot:TextBox name="login" Text={value: Name} />
+            <dot:Button ButtonTagName="button" Text="Proceed to questions" Click="{staticCommand: _js.Invoke("registerHub", _root.DashboardId, Id = service.CreateUserIdentity(), Name); _root.ShowLogin = false}" />
         </section>
     </div>
-    <div IncludeInPage={value: !ShowLogin}>
-        <section DataContext={value: UserInfo}>
-            <h2>Users ({{value: Count}}): </h2>
-            <dot:Repeater WrapperTagName="ul" DataSource={value: Names}>
-                <li InnerText={value: _this} />
+    <div grid IncludeInPage={value: !ShowLogin}>
+
+        <section column="6+4">
+            <h3 class="main-header">Questions: <span class="tag-box -success" InnerText={value: Questions.Count} /></h3>
+            <div class="_b2">
+                <dot:TextBox Type="MultiLine" Text={value: NewQuestionText} />
+                <dot:Button ButtonTagName="button" class="-bordered -success" Text="Add question" Click="{staticCommand: service.AddQuestions(_root.DashboardId.Value, _root.CurentUser.Id, NewQuestionText)}" />
+            </div>
+            <dot:Repeater WrapperTagName="section" DataSource={value: Questions}>
+                <article class="card-box question">
+                    <div class="header">
+                        <p InnerText={value: Author.Name} />
+                        <small InnerText={value: Created} />
+                    </div>
+                    <div class="card-content">
+                        <p class="content" InnerText={value: Text} />
+                    </div>
+                    <div class="footer">
+                        <div tabindex="0" class="dropdown-button -top">
+                            <span InnerText={value: Likes.Count} />
+                            <dot:Repeater DataSource={value: Likes} WrapperTagName="ul" class="dropdown-content">
+                                <li class="item" InnerText={value: User.Name} />
+                            </dot:Repeater>
+                        </div>
+                        &nbsp;
+                        <dot:LinkButton Click={staticCommand: service.ToggleLike(_root.DashboardId.Value, Id, _root.CurentUser.Id)} Text="Like" />
+                    </div>
+                </article>
             </dot:Repeater>
         </section>
-        <section>
-            <dot:TextBox Type="MultiLine" Text={value: NewQuestionText} />
-            <dot:Button Text="Login" Click="{staticCommand: service.AddQuestions(_root.DashboardId.Value, _root.CurentUser.Id, NewQuestionText)}" />
+        <section column="6+4">
+            <div DataContext={value: UserInfo}>
+                <h3 class="main-header">Users: <span class="tag-box -success" InnerText={value: Names.Count} /></h3>
+                <dot:Repeater WrapperTagName="ul" DataSource={value: Names}>
+                    <li InnerText={value: _this} />
+                </dot:Repeater>
+            </div>
+            <div>
+                <h4 class="main-header">Connect:</h4>
+                <cc:QrCodeLink />
+                <label>Link:</label> 
+                <dot:RouteLink RouteName="Dashboard" Param-dashboardId={value: _root.DashboardId.Value} Text={value: _root.Location}/>
+            </div>
         </section>
-        <dot:Repeater WrapperTagName="section" DataSource={value: Questions}>
-            <article>
-                <h2 InnerText={value: Author.Name} />
-                <p InnerText={value: Text} />
-            </article>
-        </dot:Repeater>
     </div>
     <dot:NamedCommand Name="RefreshUserInfo" Command={staticCommand: UserInfo = service.GetDashboardUsers(DashboardId.Value)} />
     <dot:NamedCommand Name="RefreshQuestions" Command={staticCommand: Questions = service.GetQuestions(DashboardId.Value)} />
+
 </dot:Content>
 

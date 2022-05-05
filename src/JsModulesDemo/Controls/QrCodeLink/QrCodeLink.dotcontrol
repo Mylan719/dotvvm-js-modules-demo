@@ -1,0 +1,5 @@
+﻿@viewModel object
+@baseType JsModulesDemo.Controls.QrCodeLink.QrCodeLink, JsModulesDemo
+
+@js QrCodeLink-js
+

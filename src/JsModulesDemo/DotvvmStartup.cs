@@ -44,6 +44,8 @@ namespace JsModulesDemo
         {
             config.Resources.Register("style-css", new StylesheetResource(new FileResourceLocation("wwwroot/style.css")));
             config.Resources.Register("signalr-js", new ScriptResource(new FileResourceLocation("wwwroot/libs/signalr/signalr.js")));
+            config.Resources.Register("qrcode-js", new ScriptResource(new FileResourceLocation("wwwroot/libs/qrcode/qrcode.js")));
+
         }
 
         private static void ConfigureScriptResources(DotvvmConfiguration config)
